@@ -31,13 +31,10 @@ module Wod
   class Client
     include Wod::Helpers
   
-    attr_reader :name
-    attr_accessor :team
-  
-    def initialize username, password, team
-      @username = username
-      @password = password
-      @team = team
+    attr_reader :collect_login_deets, :collect_team_selection
+    def initialize options
+      @collect_login_deets = options[:collect_login_deets]
+      @collect_team_selection = options[:collect_team_selection]
     end
   
     def cookies_file
@@ -55,23 +52,25 @@ module Wod
     end
     
     def login_at page
-      puts "Creating session"
-      
       login_page = page.page.links.find { |l| l.text == 'Log in'}.click
 
+      username, password = collect_login_deets.call
+
       f = login_page.form("appleConnectForm")
-      f.theAccountName = @username
-      f.theAccountPW = @password
+      f.theAccountName = username
+      f.theAccountPW = password
       f.submit
     end
     
     def select_team_at page
-      raise NoTeamSelected.new(page.search("select[name='memberDisplayId'] option").map{|o| {:name => o.text, :value => o[:value]} }) unless self.team
-      f = page.page.form("saveTeamSelection")
-      select_list = f.fields.first
-      select_list.value = self.team
+      f = page.form "saveTeamSelection"
+      select_list = f.field('memberDisplayId')
+      teams = select_list.options.map(&:text)
       
-      DevCenterPage.new f.click_button f.button_with(:value => /continue/i)
+      selected_team = collect_team_selection.call(teams)
+      select_list.option_with(:text => selected_team).select
+      
+      f.click_button f.button_with(:value => /continue/i)
     end
     
     def login_and_reopen url
@@ -88,7 +87,6 @@ module Wod
       end
       
       raise InvalidCredentials unless page.logged_in?
-      raise NoTeamSelected.new(page.search("select[name='memberDisplayId'] option").map{|o| {:name => o.text, :value => o[:value]} }) if page.team_selection_page?
       agent.cookie_jar.save_as cookies_file
       page
     end

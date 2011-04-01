@@ -5,7 +5,8 @@ module Wod::Command
     attr_accessor :credentials
     
     def client
-      @client = Wod::Client.new(user, password, team)
+      @client = Wod::Client.new :collect_login_deets => lambda { [user, password] },
+                                :collect_team_selection => lambda { |team_names| team || collect_team_selection(team_names) }
     end
         
     # just a stub; will raise if not authenticated
@@ -90,17 +91,20 @@ module Wod::Command
         puts "Authentication failed."
         return if retry_login?
         exit 1
-      rescue ::Wod::NoTeamSelected => e
-        teams = e.teams
-        puts "This account belongs to the following teams:"
-        puts teams.map.with_index{|t, i| "#{i+1}. #{t[:name]}"}.join("\n")
-        STDOUT << "Select team [1]: "
-        selection = gets.strip
-        selection = "1" if selection.empty? || selection.to_i == 0
-        client.team = @credentials[2] = teams[selection.to_i-1][:value]
-        write_credentials
-        # check
       end
+    end
+    
+    def collect_team_selection team_names
+      puts "This account belongs to the following teams:"
+      team_names.each.with_index do |team, i|
+        puts "#{i+1}. #{team}"
+      end
+      print "Select team (1): "
+      selection = ask
+      selection = "1" if selection.empty? || selection.to_i == 0
+      @credentials[2] = team_names[selection.to_i-1]
+      write_credentials
+      @credentials[2]
     end
     
     def retry_login?
