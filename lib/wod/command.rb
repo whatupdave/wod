@@ -23,8 +23,10 @@ module Wod
         else
           error "Authentication failure"
         end
+      rescue Wod::NoTeamSelected
+        STDERR.puts "No team selected"
+        run command, args, retries + 1
       end
-      
     end
     
     def self.run_internal(command, args, wod=nil)

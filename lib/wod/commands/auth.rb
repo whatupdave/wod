@@ -5,7 +5,7 @@ module Wod::Command
     attr_accessor :credentials
     
     def client
-      @client = Wod::Client.new(user, password)
+      @client = Wod::Client.new(user, password, team)
     end
         
     # just a stub; will raise if not authenticated
@@ -18,13 +18,20 @@ module Wod::Command
     end
     
     def user
-      get_credentials
-      @credentials[0]
+      credential 0
     end
     
     def password
+      credential 1
+    end
+    
+    def team
+      credential 2
+    end
+    
+    def credential index
       get_credentials
-      @credentials[1]
+      @credentials && @credentials.size > index ? @credentials[index] : nil
     end
     
     def credentials_file
@@ -83,6 +90,16 @@ module Wod::Command
         puts "Authentication failed."
         return if retry_login?
         exit 1
+      rescue ::Wod::NoTeamSelected => e
+        teams = e.teams
+        puts "This account belongs to the following teams:"
+        puts teams.map.with_index{|t, i| "#{i+1}. #{t[:name]}"}.join("\n")
+        STDOUT << "Select team [1]: "
+        selection = gets.strip
+        selection = "1" if selection.empty? || selection.to_i == 0
+        client.team = @credentials[2] = teams[selection.to_i-1][:value]
+        write_credentials
+        # check
       end
     end
     

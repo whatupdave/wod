@@ -49,6 +49,9 @@ module Wod::Command
     end
     
     def usage
+      puts "wod v#{Wod::VERSION}"
+      puts
+      
       longest_command_length = self.class.groups.map do |group|
         group.map { |g| g.first.length }
       end.flatten.max
