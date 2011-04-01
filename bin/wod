@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+
+$:.unshift File.join File.dirname(__FILE__), '../lib'
+
+require "wod"
+
+args = ARGV.dup
+ARGV.clear
+command = args.shift.strip rescue 'help'
+
+Wod::Command.run command, args
