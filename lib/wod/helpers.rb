@@ -3,6 +3,14 @@ module Wod
     def home_directory
       ENV['HOME']
     end
+    
+    def wod_directory
+      File.join home_directory, ".wod"
+    end
+    
+    def last_page_file
+      File.join wod_directory, "last_page.html"
+    end
         
     def error(msg)
       STDERR.puts(msg)

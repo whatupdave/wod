@@ -23,6 +23,14 @@ module Wod
         else
           error "Authentication failure"
         end
+      rescue Exception => e
+        File.open(last_page_file, 'w') do |f|
+          f.chmod(0600)
+          f.puts Client.last_page.page.send(:html_body)
+        end
+        puts "Error: Last page saved to #{last_page_file}"
+
+        raise e
       end
     end
     

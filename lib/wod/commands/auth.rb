@@ -115,10 +115,10 @@ module Wod::Command
     
    def write_credentials
       FileUtils.mkdir_p(File.dirname(credentials_file))
-      f = File.open(credentials_file, 'w')
-      f.chmod(0600)
-      f.puts self.credentials
-      f.close
+      File.open(credentials_file, 'w') do |f|
+        f.chmod(0600)
+        f.puts self.credentials
+      end
       set_credentials_permissions
     end
     

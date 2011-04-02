@@ -31,6 +31,10 @@ module Wod
   class Client
     include Wod::Helpers
   
+    def self.last_page
+      @@last_page
+    end
+  
     attr_reader :collect_login_deets, :collect_team_selection
     def initialize options
       @collect_login_deets = options[:collect_login_deets]
@@ -94,7 +98,7 @@ module Wod
     def get url
       page = DevCenterPage.new agent.get(url)
       page = login_and_reopen(url) unless page.logged_in?
-      page
+      @@last_page = page
     end
     
     def logged_in?

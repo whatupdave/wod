@@ -4,8 +4,15 @@ $:.unshift File.join File.dirname(__FILE__), '../lib'
 
 require "wod"
 
-args = ARGV.dup
-ARGV.clear
+args = []
+options = []
+
+ARGV.each do |a|
+  a =~ /^-/ ? options << a : args << a
+end
+
 command = args.shift.strip rescue 'help'
+
+ARGV.clear
 
 Wod::Command.run command, args
