@@ -1,3 +1,6 @@
+== 0.0.3
+* An unhandled error now causes wod to save the last page for inspection
+
 == 0.0.2
 * Added support for accounts belonging to multiple teams
 
