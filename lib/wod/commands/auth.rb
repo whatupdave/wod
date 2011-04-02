@@ -96,7 +96,7 @@ module Wod::Command
     
     def collect_team_selection team_names
       puts "This account belongs to the following teams:"
-      team_names.each.with_index do |team, i|
+      team_names.each_with_index do |team, i|
         puts "#{i+1}. #{team}"
       end
       print "Select team (1): "

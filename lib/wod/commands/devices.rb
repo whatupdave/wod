@@ -8,7 +8,8 @@ module Wod::Command
       udids = page.search("td.id").map(&:text)
     
       devices_left = page.search(".devicesannounce strong").first.text
-      devices = names.map.with_index{|name, i| {:name => name, :udid => udids[i] } }
+      devices = []
+      names.each_with_index{|name, i| devices << {:name => name, :udid => udids[i] } }
       
       display_formatted devices, [:name, :udid]
       puts

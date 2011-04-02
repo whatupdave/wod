@@ -1,3 +1,4 @@
+require 'rubygems'
 require 'mechanize'
 require 'wod/helpers'
 require 'wod/version'

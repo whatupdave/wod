@@ -25,10 +25,12 @@ module Wod
       column_lengths = columns.map do |c|
         hashes.map { |h| h[c].length }.max
       end
+      
       sorted = hashes.sort_by {|h| h[columns.first] }
       
-      sorted.each.with_index do |h, i|
-        puts " " + columns.map.with_index{ |c, i| h[c].ljust(column_lengths[i]) }.join(" | ")
+      sorted.each do |row|
+        column_index = 0
+        puts " " + columns.map{ |column| text = row[column].ljust(column_lengths[column_index]); column_index += 1;  text }.join(" | ")
       end
     end
     

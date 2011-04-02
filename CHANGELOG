@@ -1,3 +1,6 @@
+== 0.0.4
+* Now supports ruby 1.8
+
 == 0.0.3
 * An unhandled error now causes wod to save the last page for inspection
 
