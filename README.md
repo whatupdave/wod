@@ -11,15 +11,18 @@ Usage
     
     === General Commands
 
-    help                      # show this usage
-    version                   # show the gem version
+    help                        # show this usage
+    version                     # show the gem version
 
-    login                     # log in with your apple credentials
-    logout                    # clear local authentication credentials
+    login                       # log in with your apple credentials
+    logout                      # clear local authentication credentials
 
-    devices                   # list your registered devices
-    devices:add <name> <udid> # add a new device
-    devices:remove <name>     # remove device (Still counts against device limit)
+    devices                     # list your registered devices
+    devices:add <name> <udid>   # add a new device
+    devices:remove <name>       # remove device (Still counts against device limit)
+
+    profiles                    # list your distribution provisioning profiles
+    profiles:get <name> <file>  # download distribution profile to file
 
 Examples
 ---

@@ -41,6 +41,9 @@ module Wod::Command
         group.command 'devices',                         'list your registered devices'
         group.command 'devices:add <name> <udid>',      'add a new device'
         group.command 'devices:remove <name>',      'remove device (Still counts against device limit)'
+        group.space
+        group.command 'profiles',                      'list your distribution provisioning profiles'
+        group.command 'profiles:get <name> <dest>', 'get a profile with the specified name and save it to the destination file'
       end
     end    
     
