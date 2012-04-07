@@ -102,6 +102,11 @@ module Wod
       @@last_page = page
     end
     
+    def getfile url
+      page = agent.get(url)
+      page
+    end
+    
     def logged_in?
       page = get "https://developer.apple.com/devcenter/ios/index.action"
       page.logged_in? && !page.team_selection_page?
