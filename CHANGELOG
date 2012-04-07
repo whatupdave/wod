@@ -1,3 +1,9 @@
+== 0.0.6
+* Added support for a direct login call which does not ask for manual input of credentials
+
+== 0.0.5
+* Added support to list and download distribution profiles
+
 == 0.0.4
 * Now supports ruby 1.8
 

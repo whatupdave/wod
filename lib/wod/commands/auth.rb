@@ -130,5 +130,22 @@ module Wod::Command
     def delete_credentials
       FileUtils.rm_rf "#{home_directory}/.wod/"
     end
+    
+    def direct_login
+      begin
+        user = args.shift
+        password = args.shift
+        team_name = args.shift
+        @credentials = [user, password, team_name]
+        write_credentials
+        check
+      rescue ::Wod::InvalidCredentials
+        delete_credentials
+        @client = nil
+        @credentials = nil
+        puts "Authentication failed."
+        exit 1
+      end
+    end
   end
 end
