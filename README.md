@@ -17,6 +17,8 @@ Usage
     login                       # log in with your apple credentials
     logout                      # clear local authentication credentials
 
+    auth:direct_login <user> <pass> <team> # log in with your apple credentials without manual input
+
     devices                     # list your registered devices
     devices:add <name> <udid>   # add a new device
     devices:remove <name>       # remove device (Still counts against device limit)

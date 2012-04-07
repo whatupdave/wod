@@ -38,6 +38,8 @@ module Wod::Command
         group.command 'login',                        'log in with your apple credentials'
         group.command 'logout',                       'clear local authentication credentials'
         group.space
+        group.command 'auth:direct_login <username> <password> <team name>', 'log in with your apple credentials without any additional user input'
+        group.space
         group.command 'devices',                         'list your registered devices'
         group.command 'devices:add <name> <udid>',      'add a new device'
         group.command 'devices:remove <name>',      'remove device (Still counts against device limit)'
